@@ -40,5 +40,23 @@ public class HighScoreRepositoryTests
         {
             directory.Delete(true);
         }
+    }[Fact]
+public void SaveThenLoad_ReturnsSavedScore()
+{
+    var directory = Directory.CreateTempSubdirectory();
+
+    try
+    {
+        var path = Path.Combine(directory.FullName, "highscore.xml");
+        var repository = new HighScoreRepository(path);
+
+        repository.Save(1234);
+
+        Assert.Equal(1234, repository.Load());
     }
+    finally
+    {
+        directory.Delete(true);
+    }
+}
 }
