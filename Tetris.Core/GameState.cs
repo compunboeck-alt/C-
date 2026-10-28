@@ -109,6 +109,33 @@ public sealed class GameState
         LockAndSpawn();
     }
 
+    public GameState Clone()
+{
+    var clone = new GameState();
+
+    clone.Board.Clear();
+
+    for (int x = 0; x < Board.Width; x++)
+    {
+        for (int y = 0; y < Board.Height; y++)
+        {
+            if (Board[x, y] is { } type)
+                clone.Board.Set(x, y, type);
+        }
+    }
+
+    clone.Current = Current?.Clone();
+    clone.NextType = NextType;
+    clone.CurrentX = CurrentX;
+    clone.CurrentY = CurrentY;
+    clone.Score = Score;
+    clone.Level = Level;
+    clone.LinesCleared = LinesCleared;
+    clone.IsGameOver = IsGameOver;
+    clone.IsPaused = IsPaused;
+
+    return clone;
+}
     private void LockAndSpawn()
     {
         foreach (var (cx, cy) in Current!.Cells)
