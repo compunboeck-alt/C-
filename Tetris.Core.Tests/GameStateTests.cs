@@ -94,5 +94,28 @@ public void PausedState_RejectsMovementAndTick()
     Assert.False(state.Tick());
     Assert.Equal(beforeX, state.CurrentX);
     Assert.Equal(beforeY, state.CurrentY);
+}[Fact]
+public void HardDrop_LocksCurrentPiece()
+{
+    var state = new GameState(seed: 1);
+
+    state.HardDrop();
+
+    bool anyBlock = false;
+
+    for (int x = 0; x < Board.Width; x++)
+    {
+        for (int y = 0; y < Board.Height; y++)
+        {
+            if (state.Board[x, y] is not null)
+            {
+                anyBlock = true;
+                break;
+            }
+        }
+    }
+
+    Assert.True(anyBlock);
+    Assert.NotNull(state.Current);
 }
 }
