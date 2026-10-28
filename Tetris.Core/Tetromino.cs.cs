@@ -10,6 +10,7 @@ public sealed class Tetromino
 {
     public TetrominoType Type { get; }
     public int Rotation { get; private set; }
+    // Cells 保存当前旋转状态下四个方块格相对于左上角的坐标。
     public IReadOnlyList<(int X, int Y)> Cells => _states[Rotation];
 
     private readonly (int X, int Y)[][] _states;
@@ -21,10 +22,16 @@ public sealed class Tetromino
         Rotation = 0;
     }
 
+    /// <summary>顺时针切换到下一个旋转状态。</summary>
     public void RotateCW() => Rotation = (Rotation + 1) % 4;
+
+    /// <summary>逆时针切换到上一个旋转状态。</summary>
     public void RotateCCW() => Rotation = (Rotation + 3) % 4;
+
+    /// <summary>设置旋转状态，并将输入规范化到 0 到 3。</summary>
     public void SetRotation(int r) => Rotation = ((r % 4) + 4) % 4;
 
+    /// <summary>复制当前方块及其旋转状态，用于试探旋转或 AI 模拟。</summary>
     public Tetromino Clone()
     {
         var t = new Tetromino(Type, _states);
