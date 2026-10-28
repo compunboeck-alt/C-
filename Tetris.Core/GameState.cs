@@ -90,6 +90,10 @@ public sealed class GameState
         return false;
     }
 
+    /// <summary>
+    /// 推进一个游戏时间单位。
+    /// 如果当前方块还能下降，则下移一格；否则固定方块并生成下一个方块。
+    /// </summary>
     public bool Tick()
     {
         if (Current is null || IsGameOver || IsPaused) return false;
@@ -102,6 +106,9 @@ public sealed class GameState
         return false;
     }
 
+    /// <summary>
+    /// 将当前方块直接降到能够到达的最低位置并固定。
+    /// </summary>
     public void HardDrop()
     {
         if (Current is null || IsGameOver || IsPaused) return;
@@ -136,6 +143,9 @@ public sealed class GameState
 
     return clone;
 }
+    /// <summary>
+    /// 固定当前方块，处理消行和计分，然后生成下一个方块。
+    /// </summary>
     private void LockAndSpawn()
     {
         foreach (var (cx, cy) in Current!.Cells)
