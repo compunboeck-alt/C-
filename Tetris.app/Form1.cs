@@ -190,8 +190,8 @@ public partial class Form1 : Form
         using var white = new SolidBrush(Color.White);
         using var yellow = new SolidBrush(Color.Gold);
 
-        g.DrawString($"分数: {_state.Score:X}", font, yellow, sideX, BoardTop);
-        g.DrawString($"最高: {_highScore:X}", font, white, sideX, BoardTop + 26);
+        g.DrawString($"分数: {_state.Score}", font, yellow, sideX, BoardTop);
+        g.DrawString($"最高: {_highScore}", font, white, sideX, BoardTop + 26);
         g.DrawString($"等级: {_state.Level}", font, white, sideX, BoardTop + 52);
         g.DrawString($"消行: {_state.LinesCleared}", font, white, sideX, BoardTop + 78);
         g.DrawString("下一个:", font, white, sideX, BoardTop + 110);
