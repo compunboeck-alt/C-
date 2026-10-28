@@ -103,6 +103,10 @@ public partial class Form1 : Form
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
+        if (e.KeyCode is Keys.Left or Keys.Right)
+        {
+            _heldKeys.Add(e.KeyCode);
+        }
         switch (e.KeyCode)
         {
             case Keys.Left:
