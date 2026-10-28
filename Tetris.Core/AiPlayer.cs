@@ -6,6 +6,9 @@
 /// </summary>
 public sealed class AiPlayer
 {
+    /// <summary>
+    /// 枚举当前方块的旋转状态和可能的横坐标，选择评价分最高的落点。
+    /// </summary>
     public (int Rotation, int X) Decide(GameState state)
     {
         var current = state.Current!;
@@ -35,6 +38,7 @@ public sealed class AiPlayer
     }
 
     /// <summary>执行一步 AI 决策：旋转到目标，再左右移到目标列。返回是否成功。</summary>
+    /// <summary>执行一次 AI 决策，将方块旋转并移动到目标位置。</summary>
     public bool Step(GameState state)
     {
         var (targetRot, targetX) = Decide(state);
@@ -49,6 +53,9 @@ public sealed class AiPlayer
         return moved;
     }
 
+    /// <summary>
+    /// 评估模拟落底后的棋盘，分数越高表示棋盘越平整、空洞越少、消行越多。
+    /// </summary>
     private (double Score, int Lines) Evaluate(GameState state, Tetromino shape, int x, int y)
     {
         // 在副本上模拟落底后的棋盘
