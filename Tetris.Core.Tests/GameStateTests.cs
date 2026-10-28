@@ -80,5 +80,19 @@ public class GameStateTests
         for (int i = 0; i < 4; i++) state.Rotate();
         var after = state.Current!.Cells.Select(c => (c.X, c.Y)).OrderBy(c => c).ToList();
         Assert.Equal(original, after);
-    }
+    }[Fact]
+public void PausedState_RejectsMovementAndTick()
+{
+    var state = new GameState(seed: 1);
+    int beforeX = state.CurrentX;
+    int beforeY = state.CurrentY;
+
+    state.TogglePause();
+
+    Assert.False(state.MoveLeft());
+    Assert.False(state.MoveRight());
+    Assert.False(state.Tick());
+    Assert.Equal(beforeX, state.CurrentX);
+    Assert.Equal(beforeY, state.CurrentY);
+}
 }
