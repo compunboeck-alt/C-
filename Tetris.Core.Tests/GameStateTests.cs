@@ -117,5 +117,31 @@ public void HardDrop_LocksCurrentPiece()
 
     Assert.True(anyBlock);
     Assert.NotNull(state.Current);
+}[Fact]
+public void Clone_CopiesStateWithoutSharingBoard()
+{
+    var original = new GameState(seed: 42);
+    var clone = original.Clone();
+
+    Assert.Equal(original.Current!.Type, clone.Current!.Type);
+    Assert.Equal(original.Current!.Rotation, clone.Current!.Rotation);
+    Assert.Equal(original.CurrentX, clone.CurrentX);
+    Assert.Equal(original.CurrentY, clone.CurrentY);
+    Assert.Equal(original.Score, clone.Score);
+
+    clone.HardDrop();
+
+    bool originalHasBlock = false;
+
+    for (int x = 0; x < Board.Width; x++)
+    {
+        for (int y = 0; y < Board.Height; y++)
+        {
+            if (original.Board[x, y] is not null)
+                originalHasBlock = true;
+        }
+    }
+
+    Assert.False(originalHasBlock);
 }
 }
