@@ -15,6 +15,9 @@ public sealed class HighScoreRepository
 
     public HighScoreRepository(string path) => _path = path;
 
+    /// <summary>
+    /// 从 XML 文件读取最高分。文件不存在、损坏或无法访问时返回默认值 0。
+    /// </summary>
     public int Load()
     {
         try
@@ -32,6 +35,10 @@ public sealed class HighScoreRepository
         }
     }
 
+    /// <summary>
+    /// 将最高分序列化为 XML，并通过临时文件替换正式文件。
+    /// 写入失败时保留游戏运行，不向界面抛出异常。
+    /// </summary>
     public void Save(int score)
     {
         string tmp = _path + ".tmp";
