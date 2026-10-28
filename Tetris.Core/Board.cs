@@ -2,15 +2,19 @@
 
 public sealed class Board
 {
+    // 棋盘坐标以左上角为原点，x 表示列，y 表示行。
     public const int Width = 12;
     public const int Height = 16;
 
     private readonly TetrominoType?[,] _cells = new TetrominoType?[Height, Width];
 
+    /// <summary>读取指定坐标上的方块类型；null 表示该格为空。</summary>
     public TetrominoType? this[int x, int y] => _cells[y, x];
 
+    /// <summary>判断坐标是否位于棋盘范围内。</summary>
     public bool IsInside(int x, int y) => x >= 0 && x < Width && y >= 0 && y < Height;
 
+    /// <summary>判断指定位置是否为空；越界位置按不可放置处理。</summary>
     public bool IsEmpty(int x, int y) => !IsInside(x, y) || _cells[y, x] is null;
 
     public void Set(int x, int y, TetrominoType type)
@@ -21,6 +25,10 @@ public sealed class Board
     public void Clear() => Array.Clear(_cells, 0, _cells.Length);
 
     /// <summary>清除满行，返回清除的行数。上方行下移。</summary>
+    /// <summary>
+    /// 从底部向上清除所有满行，并将上方内容下移。
+    /// 返回本次清除的行数。
+    /// </summary>
     public int ClearFullLines()
     {
         int cleared = 0;
