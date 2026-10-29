@@ -59,4 +59,25 @@ public void SaveThenLoad_ReturnsSavedScore()
         directory.Delete(true);
     }
 }
+
+    [Fact]
+    public void SaveAgain_OverwritesPreviousScore()
+    {
+        var directory = Directory.CreateTempSubdirectory();
+
+        try
+        {
+            var path = Path.Combine(directory.FullName, "highscore.xml");
+            var repository = new HighScoreRepository(path);
+
+            repository.Save(500);
+            repository.Save(1200);
+
+            Assert.Equal(1200, repository.Load());
+        }
+        finally
+        {
+            directory.Delete(true);
+        }
+    }
 }
